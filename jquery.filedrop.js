@@ -158,10 +158,11 @@
 		function getBuilder(filename, filedata, boundary) {
 			var dashdash = '--',
 				crlf = '\r\n',
-				builder = [];
+				builder = [],
+				params;
 	
 			if (opts.data && $.isPlainObject(opts.data) && !$.isEmptyObject(opts.data)) {
-				var params = $.param(opts.data, opts.paramtraditional).split(/&/);
+				params = $.param(opts.data, opts.paramtraditional).split(/&/);
 	
 				$.each(params, function() {
 					var pair = this.split(/\=/, 2),
@@ -329,12 +330,12 @@
 				}
 	
 				var xhr = new XMLHttpRequest(),
-						upload = xhr.upload,
-						file = files[fileIndex],
-						index = fileIndex,
-						start_time = new Date().getTime(),
-						boundary = '------multipartformboundary' + (new Date).getTime(),
-						builder;
+					upload = xhr.upload,
+					file = files[fileIndex],
+					index = fileIndex,
+					start_time = new Date().getTime(),
+					boundary = '------multipartformboundary' + (new Date).getTime(),
+					builder;
 	
 				newName = rename(file.name);
 				if (typeof newName === "string") {
@@ -361,13 +362,13 @@
 					if (xhr.responseText) {
 						opts.progressUpdated(index, file, 100);
 						var now = new Date().getTime(),
-								timeDiff = now - start_time,
-								result = (function () {
-									try {
-										return opts.uploadFinished(index, file, jQuery.parseJSON(xhr.responseText), timeDiff);
-									} catch (x) {}
-									return true;
-								}());
+							timeDiff = now - start_time,
+							result = (function () {
+								try {
+									return opts.uploadFinished(index, file, jQuery.parseJSON(xhr.responseText), timeDiff);
+								} catch (x) {}
+								return true;
+							}());
 						filesDone++;
 	
 						// Remove from processing queue
